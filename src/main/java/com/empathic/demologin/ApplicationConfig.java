@@ -19,7 +19,7 @@ public class ApplicationConfig {
 	public ShiroFilterChainDefinition shiroFilterChainDefinition() {
 		DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
 		chainDefinition.addPathDefinition("/**", "anon"); // all paths are managed via annotations.
-		chainDefinition.addPathDefinition("/login", "authc");
+		chainDefinition.addPathDefinition("/login/signin", "authc");
 
 		// or allow basic authentication, but NOT require it.
 		// chainDefinition.addPathDefinition("/**", "authcBasic[permissive]");
