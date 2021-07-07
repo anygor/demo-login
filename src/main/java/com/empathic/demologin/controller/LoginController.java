@@ -1,5 +1,6 @@
 package com.empathic.demologin.controller;
 
+import com.empathic.demologin.model.form.UserCredentials;
 import com.empathic.demologin.model.shiro.ShiroClient;
 import com.empathic.demologin.service.LoginService;
 import lombok.AllArgsConstructor;
@@ -27,21 +28,30 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "signin", method = RequestMethod.POST)
-	public String signIn(@ModelAttribute("shiroClient")ShiroClient form, ModelMap model) {
+	public String signIn(@ModelAttribute("shiroClient") UserCredentials form, ModelMap model) {
 		Subject subject = SecurityUtils.getSubject();
 		if (!subject.isAuthenticated()) {
 			ShiroClient client = loginService.getShiroClientByUsername(form.getUsername());
-			if (client.getPasswordHash().equals(loginService.getCipher(form.getPasswordHash(), client.getSalt()))) {
-				UsernamePasswordToken token = new UsernamePasswordToken(form.getUsername(), client.getPasswordHash());
-				try {
-					subject.login(token);
-				} catch (AuthenticationException ae) {
-					ae.printStackTrace(); // TODO add logger
-					return "redirect:/login";
+			if (client != null) {
+				if (client.getPasswordHash().equals(loginService.getCipher(form.getPassword(), client.getSalt()))) {
+					UsernamePasswordToken token = new UsernamePasswordToken(form.getUsername(), client.getPasswordHash());
+					try {
+						subject.login(token);
+					} catch (AuthenticationException ae) {
+						ae.printStackTrace(); // TODO add logger
+						return "redirect:/login";
+					}
+					return "home";
 				}
-				return "home";
 			}
 		}
  		return "redirect:/login";
+	}
+
+	@RequestMapping(value = "logout", method = RequestMethod.POST)
+	public String logout() {
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		return "redirect:/login";
 	}
 }

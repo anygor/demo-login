@@ -19,7 +19,7 @@ public class LoginService {
 		jdbcTemplate.query("SELECT id, version, password_hash, username, client_id, salt, is_generated_password FROM shiro_client WHERE username = '" + username + "'", rs -> {
 			list.add(new ShiroClient(rs.getLong(1), rs.getLong(2), rs.getString(3), rs.getString(4), rs.getLong(5), rs.getString(6), rs.getBoolean(7)));
 		});
-		return list.get(0);
+		return list.size() > 0 ? list.get(0) : null;
 	}
 
 	public String getCipher(String line, String salt) {

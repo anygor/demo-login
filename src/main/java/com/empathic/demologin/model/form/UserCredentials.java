@@ -1,4 +1,4 @@
-package com.empathic.demologin.model.shiro;
+package com.empathic.demologin.model.form;
 
 public class UserCredentials {
 	private String username;

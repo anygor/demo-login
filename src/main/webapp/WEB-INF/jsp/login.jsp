@@ -7,9 +7,9 @@
         <link href="<c:url value="/css/common.css"/>" rel="stylesheet" type="text/css">
     </head>
     <body>
-    <form:form method="POST" action="/login/signin" modelAttribute="ShiroClient">
+    <form:form method="POST" action="/login/signin" modelAttribute="UserCredentials">
         <input type="text" placeholder="Username" name="username"/><br>
-        <input type="password" placeholder="Password" name="passwordHash"/><br>
+        <input type="password" placeholder="Password" name="password"/><br>
         <input type="submit" value="Sign in"/><br>
     </form:form>
     </body>
